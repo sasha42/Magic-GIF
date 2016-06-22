@@ -73,8 +73,10 @@ function convert {
     fi
 }
 
-if [ -n "$input" ]; then
-    convert
-else
-    echo "No input file"
-fi
+exec 3>&1;
+input=$(dialog --title "Magic gif maker" --backtitle "Import any file supported by ffmpeg and convert it into a gif" --inputbox "Enter filename or drag and drop file" 8 50 2>&1 1>&3);
+exitcode=$?;
+exec 3>&-;
+echo $result $exitcode;
+
+convert
